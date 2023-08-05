@@ -58,6 +58,18 @@ CREATE TABLE `demo`.`user_form` (
 
 
 
+CREATE TABLE `demo`.`check_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `source` VARCHAR(45) NOT NULL,
+  `admin` BOOLEAN NOT NULL,
+  `hr` BOOLEAN,
+  `director` BOOLEAN NOT NULL,
+  `manager` BOOLEAN NOT NULL,
+  `employee` BOOLEAN NOT NULL,
+  PRIMARY KEY (`id`)
+  );
+
+
 INSERT INTO `form_category`(`id`, `name`) VALUES (1,'Đánh giá thử việc');
 INSERT INTO `form_category`(`id`, `name`) VALUES (2,'Đánh giá định kỳ hằng năm');
 

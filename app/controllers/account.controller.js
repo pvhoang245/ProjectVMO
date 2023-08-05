@@ -1,4 +1,4 @@
-var Account = require('../models/account.model');
+var Account = require('../service/account.model');
 var bcrypt = require('bcrypt');
 
 exports.getAll = function(req, res) {
@@ -30,7 +30,8 @@ exports.createAccount = async function(req, res) {
         const hashed = await bcrypt.hash(req.body.password, salt);
         var newAccount = await new Account({
             username: req.body.username,
-            password: hashed
+            password: hashed,
+            role: req.body.role
         });
         await Account.create(newAccount, function(response) {
             res.send({ result: response })

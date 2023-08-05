@@ -1,0 +1,5 @@
+// run migration create table with bash
+npx sequelize-cli db:migrate
+
+//run seed fake data 
+npx sequelize-cli db:seed:all

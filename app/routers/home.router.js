@@ -15,7 +15,7 @@ module.exports = function(router) {
 
     // router.get("/check_token", async function(req, res) {
     //     try {
-    //         var _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYUBnbWFpbC5jb20ifSwiaWF0IjoxNjg5NzQzMzE3LCJleHAiOjE2ODk3NDY5MTd9.NVZieZNmKXy2I9f-E2Gg_oBFAq2OAq7KhC6eYOclBK4";
+    //         var _token = "";
     //         const data = await jwt.check(_token);
     //         res.send({ data: data });
     //     } catch (err) {

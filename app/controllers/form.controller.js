@@ -1,4 +1,4 @@
-var Form = require('../models/form.model');
+var Form = require('../service/form.model');
 
 exports.getAll = function(req, res) {
     Form.getAll(function(data) {

@@ -1,4 +1,4 @@
-var Category = require('../models/formCategory.model');
+var Category = require('../service/formCategory.model');
 
 exports.getList = function(req, res) {
     Category.getAll(function(data) {

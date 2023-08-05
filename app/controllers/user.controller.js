@@ -1,4 +1,4 @@
-var User = require('../models/user.model');
+var User = require('../service/user.model');
 var bcrypt = require('bcrypt');
 
 exports.getAll = function(req, res) {
