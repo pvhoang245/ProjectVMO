@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             Form.belongsTo(models.Category, {
                 foreignKey: "categoryId"
             });
+            Form.hasMany(models.Form_User);
             Form.belongsToMany(models.User, {
                 through: 'Form_User',
                 foreignKey: 'formId'

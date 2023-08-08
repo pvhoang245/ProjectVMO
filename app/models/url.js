@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            Url.hasMany(models.Role_Url);
             Url.belongsToMany(models.Role, {
                 through: "Role_Url",
                 foreignKey: 'urlId'

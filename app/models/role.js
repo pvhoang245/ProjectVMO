@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             Role.hasMany(models.User);
+            Role.hasMany(models.Role_Url);
             Role.belongsToMany(models.Url, {
                 through: "Role_Url",
                 foreignKey: 'roleId'

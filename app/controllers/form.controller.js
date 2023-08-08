@@ -20,7 +20,7 @@ exports.getByYear = function(req, res) {
 }
 
 exports.getByCategory = function(req, res) {
-    var id = req.params.categoryId;
+    var id = req.params.id;
     Form.getByCategory(id, function(data) {
         res.send({ result: data });
     })
@@ -28,6 +28,7 @@ exports.getByCategory = function(req, res) {
 
 exports.createForm = function(req, res) {
     try {
+        let data = req.body;
         Form.createForm(data, function(response) {
             res.send({ result: response })
         })
@@ -38,6 +39,7 @@ exports.createForm = function(req, res) {
 
 exports.updateForm = async function(req, res) {
     var id = await req.params.id;
+    let data = req.body;
     Form.updateForm(id, data, function(response) {
         res.send({ result: response });
     })

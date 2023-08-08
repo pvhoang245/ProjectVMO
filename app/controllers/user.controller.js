@@ -15,12 +15,13 @@ exports.getById = function(req, res) {
 }
 
 exports.getByName = function(req, res) {
-    User.getByName(req.body.username, function(data) {
+    User.getByName(req.body.name, function(data) {
         res.send({ result: data });
     })
 }
 
 exports.create = async function(req, res) {
+    let data = req.body;
     try {
         User.create(data, function(response) {
             res.send({ result: response })
@@ -32,6 +33,7 @@ exports.create = async function(req, res) {
 
 exports.update = async function(req, res) {
     var id = await req.params.id;
+    let data = req.body;
     User.update(id, data, function(response) {
         res.send({ result: response });
     })

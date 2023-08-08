@@ -17,8 +17,39 @@ Account.getAll = async function(result) {
     //     }
     // })
 
+    // let data = [];
+    // data = await db.Account.findAll();
+    // result(data);
+
     let data = [];
-    data = await db.Account.findAll();
+    // data = await db.Account.findAll({
+    //     include: [{
+    //         model: db.User,
+    //         through: {
+    //             model: db.Form_User
+    //         },
+    //         include: [{
+    //             model: db.Form,
+    //             through: {
+    //                 model: db.Form_User_Detail,
+    //             },
+    //         }, ],
+    //     }, ],
+    // });
+    data = await db.Account.findAll({
+        include: [{
+            model: db.User,
+            include: [{
+                model: db.Form,
+                inculde: [{
+                    model: db.Form_User,
+                    through: [{
+                        model: db.Form_User_Detail
+                    }]
+                }],
+            }, ],
+        }, ],
+    });
     result(data);
 }
 
@@ -109,18 +140,18 @@ Account.create = async function(data, result) {
 }
 
 Account.resetPass = function(id, data, result) {
-    db.query("update account set password = ? where id = ?", [data.password, id], function(err, res) {
-            if (err) {
-                result(err);
-            } else {
-                result({ id: id, password: data.password });
-            }
-        })
-        // await User.update({ lastName: "Doe" }, {
-        //     where: {
-        //       lastName: null
-        //     }
-        //   });
+    // db.query("update account set password = ? where id = ?", [data.password, id], function(err, res) {
+    //         if (err) {
+    //             result(err);
+    //         } else {
+    //             result({ id: id, password: data.password });
+    //         }
+    //     })
+    // await User.update({ lastName: "Doe" }, {
+    //     where: {
+    //       lastName: null
+    //     }
+    //   });
 }
 
 Account.remove = async function(id, result) {

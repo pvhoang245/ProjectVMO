@@ -93,3 +93,12 @@ INSERT INTO `user`(`id`, `name`, `birthday`, `address`, `image`, `phone`, `email
 
 
 INSERT INTO `user_form`(`id`, `status`, `manageComment`, `userComment`, `userId`, `formId`) VALUES (1,'new','none','none',5,1);
+
+
+
+/////////////////////////////////////////
+INSERT INTO `roles`(`id`, `name`, `description`) VALUES ('1','admin','admin');
+INSERT INTO `roles`(`id`, `name`, `description`) VALUES ('2','hr','hr');
+INSERT INTO `roles`(`id`, `name`, `description`) VALUES ('3','director','director');
+INSERT INTO `roles`(`id`, `name`, `description`) VALUES ('4','manager','manager');
+INSERT INTO `roles`(`id`, `name`, `description`) VALUES ('5','employee','employee');

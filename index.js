@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3000;
 var connection = require('./app/config/connect');
 const sequelize = require('sequelize')
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -18,10 +21,11 @@ connection();
 
 require('./app/routers/home.router')(app);
 // app.use(_authMiddleware.isAuth);
-require('./app/routers/book.router')(app);
 require('./app/routers/user.router')(app);
 require('./app/routers/formCategory.router')(app);
 require('./app/routers/account.router')(app);
+require('./app/routers/form.router')(app);
+require('./app/routers/userForm.router')(app);
 
 app.listen(PORT, function() {
     console.log(`App listening on port: ${PORT}`);

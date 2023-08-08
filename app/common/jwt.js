@@ -27,7 +27,20 @@ let check = function(token) {
     });
 }
 
+let decode = function(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, _app.ACCESS_TOKEN, function(err, data) {
+            if (err) {
+                console.log(reject(err));
+            } else {
+                return resolve(JSON.parse(JSON.stringify(data)));
+            }
+        });
+    });
+}
+
 module.exports = {
     make: make,
-    check: check
+    check: check,
+    decode: decode
 }
