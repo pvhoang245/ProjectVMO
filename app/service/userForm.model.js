@@ -1,4 +1,6 @@
 const db = require('../models/index');
+const { Sequelize } = require('sequelize');
+
 const UserForm = function(userForm) {
     this.id = userForm.id;
     this.status = userForm.status;
@@ -17,7 +19,7 @@ UserForm.getAll = async function(result) {
     //     }
     // })
     let data = [];
-    data = await db.Form_User_Detail.findAll({});
+    data = await db.Url.findAll();
     result(data);
 }
 

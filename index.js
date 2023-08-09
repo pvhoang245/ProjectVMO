@@ -6,6 +6,7 @@ const _authMiddleware = require('./app/common/_authMiddleware');
 const PORT = process.env.PORT || 3000;
 var connection = require('./app/config/connect');
 const sequelize = require('sequelize')
+const db = require("./app/models/index")
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -15,9 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
 connection();
-(async() => {
-    await sequelize.sync({ alter: true });
-})
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Drop and re-sync db.");
+// });
 
 require('./app/routers/home.router')(app);
 // app.use(_authMiddleware.isAuth);

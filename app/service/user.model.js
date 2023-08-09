@@ -24,9 +24,7 @@ User.getAll = async function(result) {
     //     }
     // })
     let data = [];
-    data = await db.User.findAll({
-        raw: false
-    });
+    data = await db.User.findAll();
     result(data);
 }
 

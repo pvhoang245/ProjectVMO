@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const mail = require("../../sendEmail")
 const bcrypt = require('bcrypt')
 module.exports = function(router) {
     var homeController = require('../controllers/home.controller')
@@ -68,6 +69,20 @@ module.exports = function(router) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    })
+
+    router.get("/sendEmail", async(req, res) => {
+        let data = await {
+            name: "bao cao dinh ki t8",
+            duedate: "31-08-2023"
+        }
+        await mail.sendMail(data, req, res)
+
+        // let data = await db.User.findAll({
+        //     attributes: ["email"]
+        // })
+        // console.log(data[1].email)
+        // res.send(data)
     })
 
 
