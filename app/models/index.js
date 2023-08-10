@@ -1,43 +1,86 @@
-'use strict';
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const dbConfig = require("../config/connect");
 
-let sequelize;
-if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-    sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+    host: dbConfig.HOST,
+    dialect: dbConfig.dialect,
+    operatorsAliases: false,
 
-fs
-    .readdirSync(__dirname)
-    .filter(file => {
-        return (
-            file.indexOf('.') !== 0 &&
-            file !== basename &&
-            file.slice(-3) === '.js' &&
-            file.indexOf('.test.js') === -1
-        );
-    })
-    .forEach(file => {
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-        db[model.name] = model;
-    });
-
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
-    }
+    pool: {
+        max: dbConfig.pool.max,
+        min: dbConfig.pool.min,
+        acquire: dbConfig.pool.acquire,
+        idle: dbConfig.pool.idle,
+    },
 });
 
-db.sequelize = sequelize;
+const db = {};
+
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.account = require("./account")(sequelize, Sequelize);
+db.category = require("./category")(sequelize, Sequelize);
+db.user = require("./user")(sequelize, Sequelize);
+db.form = require("./form")(sequelize, Sequelize);
+db.role = require("./role")(sequelize, Sequelize);
+db.url = require("./url")(sequelize, Sequelize);
+db.role_url = require("./role_url")(sequelize, Sequelize);
+db.form_user = require("./form_user")(sequelize, Sequelize);
+db.form_user_detail = require("./form_user_detail")(sequelize, Sequelize);
+////
+db.account.hasOne(db.user);
+db.user.belongsTo(db.account, {
+    foreignKey: "accountId"
+});
+////
+db.role.hasMany(db.user);
+db.user.belongsTo(db.role, {
+    foreignKey: "roleId"
+});
+////
+db.user.belongsToMany(db.form, {
+    through: 'form_users',
+    foreignKey: 'userId'
+});
+db.form.belongsToMany(db.user, {
+    through: 'form_users',
+    foreignKey: 'formId'
+});
+db.form.hasMany(db.form_user);
+db.form_user.belongsTo(db.form, {
+    foreignKey: "formId"
+});
+db.user.hasMany(db.form_user);
+db.form_user.belongsTo(db.user, {
+    foreignKey: "userId"
+});
+////
+db.url.belongsToMany(db.role, {
+    through: "role_urls",
+    foreignKey: 'urlId'
+});
+db.role.belongsToMany(db.url, {
+    through: "role_urls",
+    foreignKey: 'roleId'
+});
+db.role.hasMany(db.role_url);
+db.role_url.belongsTo(db.role, {
+    foreignKey: "roleId"
+});
+db.url.hasMany(db.role_url);
+db.role_url.belongsTo(db.url, {
+    foreignKey: "urlId"
+});
+////
+db.category.hasMany(db.form);
+db.form.belongsTo(db.category, {
+    foreignKey: "categoryId"
+});
+////
+db.form_user.hasMany(db.form_user_detail);
+db.form_user_detail.belongsTo(db.form_user, {
+    foreignKey: "formUserId"
+});
 
 module.exports = db;

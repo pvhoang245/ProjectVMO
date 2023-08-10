@@ -1,48 +1,82 @@
-var User = require('../service/user.model');
-var bcrypt = require('bcrypt');
+var User = require('../service/user.service');
+const db = require('../models/index');
 
-exports.getAll = function(req, res) {
-    User.getAll(function(data) {
-        res.send({ result: data });
-    })
+exports.getAll = async function(req, res) {
+    var jwt = require("../common/jwt");
+    try {
+        const decode = await jwt.decode(req.cookies.token);
+        id = await decode.data.id;
+        console.log(id)
+        let data = await db.user.findOne({
+            where: {
+                accountId: id
+            }
+        });
+        data = await data.get();
+
+        let roleId = await data.roleId;
+        let role = await db.role.findOne({ where: { id: roleId } })
+        role = await role.get();
+        User.getAll(data.id, role.name, req, res);
+    } catch (error) {
+        res.send(error);
+    }
 }
 
-exports.getById = function(req, res) {
+exports.getById = async function(req, res) {
     var id = req.params.id;
-    User.getById(id, function(data) {
-        res.send({ result: data });
-    })
+    var jwt = require("../common/jwt");
+    try {
+        const decode = await jwt.decode(req.cookies.token);
+        id = await decode.data.id;
+        console.log(id)
+        let data = await db.user.findOne({
+            where: {
+                accountId: id
+            }
+        });
+        data = await data.get();
+
+        let roleId = await data.roleId;
+        let role = await db.role.findOne({ where: { id: roleId } })
+        role = await role.get();
+        User.getById(id, role.name, req, res);
+    } catch (error) {
+        res.send(error);
+    }
 }
 
 exports.getByName = function(req, res) {
-    User.getByName(req.body.name, function(data) {
-        res.send({ result: data });
-    })
+    User.getByName(req.body.name, req, res);
 }
 
 exports.create = async function(req, res) {
-    let data = req.body;
     try {
-        User.create(data, function(response) {
-            res.send({ result: response })
-        })
+        let data = await req.body;
+        let role = await db.role.findOne({
+            where: { id: data.roleId }
+        });
+        role = await role.get();
+        if (role.name == "admin") {
+            res.status(403).send({ Error: "Access denied" });
+        } else {
+            User.create(data, req, res);
+        }
     } catch (error) {
-        res.send(error);
+        res.status(500).send({
+            Error: error
+        });
     }
 }
 
 exports.update = async function(req, res) {
     var id = await req.params.id;
     let data = req.body;
-    User.update(id, data, function(response) {
-        res.send({ result: response });
-    })
+    User.update(id, data, req, res);
 }
 exports.delete = function(req, res) {
     var id = req.params.id;
-    User.remove(id, function(response) {
-        res.send({ result: response });
-    })
+    User.remove(id, req, res);
 }
 
 

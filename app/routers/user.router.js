@@ -8,13 +8,3 @@ module.exports = function(router) {
     router.put("/user/update/:id", userController.update);
     router.delete("/user/remove/:id", userController.delete);
 }
-
-
-
-
-// module.exports = function(router) {
-//     var userController = require('../controllers/user.controller')
-
-//     router.get("/user/list", userController.getList);
-//     router.post("/user/register", userController.createUser);
-// };

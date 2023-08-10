@@ -2,34 +2,33 @@
 const {
     Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    class Form extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            Form.belongsTo(models.Category, {
-                foreignKey: "categoryId"
-            });
-            Form.hasMany(models.Form_User);
-            Form.belongsToMany(models.User, {
-                through: 'Form_User',
-                foreignKey: 'formId'
-            })
+    const Form = sequelize.define("forms", {
+        id: {
+            allowNull: false,
+            primaryKey: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        description: {
+            type: DataTypes.STRING
+        },
+        date: {
+            type: DataTypes.DATE
+        },
+        duedate: {
+            type: DataTypes.DATE
+        },
+        categoryId: {
+            type: DataTypes.UUID
         }
-    }
-    Form.init({
-        name: DataTypes.STRING,
-        description: DataTypes.STRING,
-        date: DataTypes.DATE,
-        duedate: DataTypes.DATE,
-        categoryId: DataTypes.INTEGER
     }, {
-        sequelize,
         timestamps: false,
-        modelName: 'Form',
     });
+
     return Form;
 };

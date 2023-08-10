@@ -7,34 +7,14 @@ module.exports = function(router) {
 
     router.get("/", homeController.home);
     router.get("/about", homeController.about);
-    // router.get("/token", async function(req, res) {
-    //     var user = {
-    //         name: "Admin",
-    //         email: "a@gmail.com"
-    //     };
-    //     const _token = await jwt.make(user);
-    //     res.cookie('token', _token, { httpOnly: true, maxAge: 3600000 });
-    //     res.send({ token: _token });
-    //     console.log(_token)
-    // });
     router.get("/decode", async function(req, res) {
-            const decode = await jwt.decode(req.cookies.token);
-            res.send({ decode: decode })
-        })
-        // router.get("/tokenn", async function(req, res) {
-        //     var user = {
-        //         name: "Test",
-        //         email: "a@gmail.com"
-        //     };
-        //     const _token = await jwt.make(user);
-        //     res.cookie('token', _token, { httpOnly: true, maxAge: 3600000 });
-        //     res.send({ token: _token });
-        //     console.log(_token)
-        // });
+        const decode = await jwt.decode(req.cookies.token);
+        res.send({ decode: decode })
+    })
     router.post("/login", async function(req, res, result) {
         try {
             // Truy vấn cơ sở dữ liệu để kiểm tra quyền truy cập
-            let data = await db.Account.findOne({
+            let data = await db.account.findOne({
                 where: { username: req.body.username }
             });
             data = data.get();
@@ -42,7 +22,7 @@ module.exports = function(router) {
             if (!data) {
                 result(null);
             } else {
-                await bcrypt.compare(req.body.password, data.password, async function(err, isMatch) {
+                bcrypt.compare(req.body.password, data.password, async function(err, isMatch) {
                     if (err) {
                         // Xử lý lỗi
                         console.error('Lỗi kiểm tra mật khẩu:', err);
@@ -72,27 +52,10 @@ module.exports = function(router) {
     })
 
     router.get("/sendEmail", async(req, res) => {
-        let data = await {
+        let data = {
             name: "bao cao dinh ki t8",
             duedate: "31-08-2023"
         }
         await mail.sendMail(data, req, res)
-
-        // let data = await db.User.findAll({
-        //     attributes: ["email"]
-        // })
-        // console.log(data[1].email)
-        // res.send(data)
     })
-
-
-    // router.get("/check_token", async function(req, res) {
-    //     try {
-    //         var _token = "";
-    //         const data = await jwt.check(_token);
-    //         res.send({ data: data });
-    //     } catch (err) {
-    //         res.send({ data: "Token khong hop le" });
-    //     }
-    // });
 };

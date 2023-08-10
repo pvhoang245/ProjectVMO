@@ -1,4 +1,4 @@
-var UserForm = require('../service/userForm.model');
+var UserForm = require('../service/userForm.service');
 
 exports.getAll = function(req, res) {
     UserForm.getAll(function(data) {

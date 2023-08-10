@@ -1,52 +1,30 @@
-var Form = require('../service/form.model');
+var Form = require('../service/form.service');
 
 exports.getAll = function(req, res) {
-    Form.getAll(function(data) {
-        res.send({ result: data });
-    })
+    Form.getAll(req, res);
 }
 
 exports.getById = function(req, res) {
     var id = req.params.id;
-    Form.getById(id, function(data) {
-        res.send({ result: data });
-    })
+    Form.getById(id, req, res);
 }
 
-exports.getByYear = function(req, res) {
-    Form.getByYear(req.body.year, function(data) {
-        res.send({ result: data });
-    })
-}
-
-exports.getByCategory = function(req, res) {
+exports.getByCategoryId = function(req, res) {
     var id = req.params.id;
-    Form.getByCategory(id, function(data) {
-        res.send({ result: data });
-    })
+    Form.getByCategoryId(id, req, res);
 }
 
-exports.createForm = function(req, res) {
-    try {
-        let data = req.body;
-        Form.createForm(data, function(response) {
-            res.send({ result: response })
-        })
-    } catch (error) {
-        res.send(error);
-    }
+exports.create = function(req, res) {
+    let data = req.body;
+    Form.create(data, req, res);
 }
 
-exports.updateForm = async function(req, res) {
+exports.update = async function(req, res) {
     var id = await req.params.id;
     let data = req.body;
-    Form.updateForm(id, data, function(response) {
-        res.send({ result: response });
-    })
+    Form.update(id, data, req, res);
 }
-exports.deleteForm = function(req, res) {
+exports.delete = function(req, res) {
     var id = req.params.id;
-    Form.removeForm(id, function(response) {
-        res.send({ result: response });
-    })
+    Form.remove(id, req, res);
 }

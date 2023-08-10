@@ -12,7 +12,7 @@ let isAuth = async function(req, res, next) {
             return res.send({ data: "Token khong hop le" });
         }
     } else {
-        return res.send({ data: "Chua co ma token" });
+        return res.status(403).send("hiii");
     }
     console.log(req.headers);
 }
@@ -22,26 +22,27 @@ const checkPermission = (url) => async(req, res, next) => {
     try {
         const decode = await jwt.decode(req.cookies.token);
         id = await decode.data.id;
-        await console.log(id)
-            // Truy vấn cơ sở dữ liệu để kiểm tra quyền truy cập
-        let data = await db.User.findOne({
+
+        let data = await db.user.findOne({
             where: {
                 accountId: id
             }
         });
-        data = data.get();
-        // await console.log(data)
-        let role = await data.roleId;
-        // await console.log(role)
-        const permission = await db.Role_Url.findOne({
-            include: {
-                model: db.Url,
-                where: {
-                    link: url // và URL được yêu cầu
-                }
-            },
+        data = await data.get();
+
+        let roleId = await data.roleId;
+        let dataUrl = await db.url.findOne({
             where: {
-                roleId: role
+                link: url
+            }
+        });
+        dataUrl = await dataUrl.get();
+        let urlId = await dataUrl.id;
+
+        const permission = await db.role_url.findOne({
+            where: {
+                roleId: roleId,
+                urlId: urlId
             }
 
         });

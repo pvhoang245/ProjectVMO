@@ -10,7 +10,7 @@ const sendMail = async(data, req, res) => {
         }
     });
 
-    let mail = await db.User.findAll({
+    let mail = await db.user.findAll({
         attributes: ["email"]
     })
     let list = [];

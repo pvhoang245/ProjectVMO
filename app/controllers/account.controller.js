@@ -1,62 +1,59 @@
-var Account = require('../service/account.model');
+const Account = require('../service/account.service');
+const codeErr = require('../common/status');
 var bcrypt = require('bcrypt');
 
 exports.getAll = function(req, res) {
-    Account.getAll(function(data) {
-        res.send({ result: data });
-    })
+    Account.getAll(req, res);
 }
 
 exports.getById = function(req, res) {
-    var id = req.params.id;
-    Account.getById(id, function(data) {
-        res.send({ result: data });
-    })
+    let id = req.params.id;
+    Account.getById(id, req, res);
 }
 
-exports.getByUsername = async function(req, res) {
-    try {
-        await Account.getByUsername(req.body.username, req.body.password, async function(data) {
-            await res.send({ result: data });
-        })
-    } catch (err) {
-        res.send(err)
-    }
+exports.getByUsername = function(req, res) {
+    let username = req.params.username;
+    Account.getByUsername(username, req, res);
 }
 
-exports.createAccount = async function(req, res) {
+exports.create = async function(req, res) {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
-        var newAccount = await new Account({
+        let newAccount = {
             username: req.body.username,
-            password: hashed,
-            role: req.body.role
-        });
-        await Account.create(newAccount, function(response) {
-            res.send({ result: response })
-        })
+            password: hashed
+        };
+        Account.create(newAccount, req, res)
     } catch (error) {
         res.send(error);
     }
 }
 
-exports.resetPassword = async function(req, res) {
-    var id = await req.params.id;
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(req.body.password, salt);
-    var data = await new Account({
-        username: "",
-        password: hashed
-    });
-    await Account.resetPass(id, data, function(response) {
-        res.send({ result: response });
-    })
+exports.changePassword = async function(req, res) {
+    var jwt = require("../common/jwt");
+    try {
+        const decode = await jwt.decode(req.cookies.token);
+        idUser = await decode.data.id;
+        var id = await req.params.id;
+        if (id != idUser) {
+            res.status(403).send({ Error: codeErr(403) });
+        } else {
+            const salt = await bcrypt.genSalt(10);
+            const hashed = await bcrypt.hash(req.body.password, salt);
+            Account.changePass(id, hashed, req, res)
+        }
+    } catch (error) {
+        res.send(error);
+    }
 }
 
-exports.deleteAccount = function(req, res) {
+exports.deleteById = function(req, res) {
     var id = req.params.id;
-    Account.remove(id, function(response) {
-        res.send({ result: response });
-    })
+    Account.removeById(id, req, res)
+}
+
+exports.deleteByUsername = function(req, res) {
+    var username = req.params.username;
+    Account.removeByUsername(username, req, res)
 }
