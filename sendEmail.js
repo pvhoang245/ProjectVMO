@@ -1,7 +1,7 @@
 var _app = require('./app/common/_app')
 const db = require("./app/models/index")
 const nodemailer = require('nodemailer')
-const sendMail = async(data, req, res) => {
+const sendMailCreateForm = async(data, req, res) => {
     let transporter = await nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -37,6 +37,64 @@ const sendMail = async(data, req, res) => {
             })
         })
 }
+const sendMailChangeStatus = async(data, req, res) => {
+    let transporter = await nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: _app.EMAIL_USERNAME,
+            pass: _app.EMAIL_PASSWORD
+        }
+    });
+    await transporter.sendMail({
+            from: _app.EMAIL_USERNAME,
+            to: data.email,
+            subject: data.name,
+            text: "Hi",
+            html: data.html
+        },
+        (err) => {
+            if (err) {
+                return res.json({
+                    message: "Lỗi",
+                    err
+                });
+            }
+            return res.json({
+                message: "Đã gửi mail"
+            })
+        })
+}
 
+const sendMailResetPassword = async(data, req, res) => {
+    let transporter = await nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: _app.EMAIL_USERNAME,
+            pass: _app.EMAIL_PASSWORD
+        }
+    });
+    await transporter.sendMail({
+            from: _app.EMAIL_USERNAME,
+            to: data.email,
+            subject: data.name,
+            text: "Hi",
+            html: data.html
+        },
+        (err) => {
+            if (err) {
+                return res.json({
+                    message: "Lỗi",
+                    err
+                });
+            }
+            return res.json({
+                message: "Đã gửi mail"
+            })
+        })
+}
 
-module.exports = { sendMail: sendMail };
+module.exports = {
+    sendMailCreateForm: sendMailCreateForm,
+    sendMailChangeStatus: sendMailChangeStatus,
+    sendMailResetPassword: sendMailResetPassword
+};

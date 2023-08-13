@@ -1,90 +1,164 @@
 const db = require('../models/index');
+const codeErr = require('../common/status');
+const mail = require('../../sendEmail')
 
-exports.getAll = async function(result) {
+exports.getAll = async function(req, res) {
     await db.form_user.findAll()
         .then(data => {
-            result(data);
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
         })
         .catch(err => {
-            result(err)
+            res.status(500).send({
+                Error: err.message
+            });
         });
 }
 
-exports.getById = async function(id, result) {
+exports.getById = async function(id, req, res) {
     await db.form_user.findOne({ where: { id: id } })
         .then(data => {
-            result(data);
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
         })
         .catch(err => {
-            result(err)
+            res.status(500).send({
+                Error: err.message
+            });
         });
 }
 
-exports.getByFormId = async function(id, result) {
+exports.getByFormId = async function(id, req, res) {
     await db.form_user.findAll({ where: { formId: id } })
         .then(data => {
-            result(data);
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
         })
         .catch(err => {
-            result(err)
+            res.status(500).send({
+                Error: err.message
+            });
         });
 }
 
-exports.getByUserId = async function(id, result) {
+exports.getByUserId = async function(id, req, res) {
     await db.form_user.findAll({ where: { userId: id } })
         .then(data => {
-            result(data);
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
         })
         .catch(err => {
-            result(err)
+            res.status(500).send({
+                Error: err.message
+            });
         });
 }
 
-exports.create = async function(data, result) {
+exports.getByFormIdUserId = async function(data, req, res) {
+    await db.form_user.findAll({ where: { userId: data.userId, formId: data.formId } })
+        .then(data => {
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                Error: err.message
+            });
+        });
+}
+
+exports.create = async function(data, req, res) {
     try {
         await db.form_user.create({
             status: data.status,
             formId: data.formId,
             userId: data.userId
         });
-        result(data);
+        res.status(200).send("Da tao thanh cong form_user");
     } catch (err) {
-        result(err);
-    }
-}
-
-exports.update = async function(id, data, result) {
-    let dataFind = await db.form_user.findByPk(id);
-    if (!dataFind) {
-        result("form_user khong ton tai");
-    } else {
-        await db.form_user.update({
-            status: data.status,
-            managerCmt: data.managerCmt,
-            userCmt: data.userCmt
-        }, {
-            where: {
-                id: id
-            }
+        res.status(500).send({
+            Error: err.message
         });
-        result(data);
     }
 }
 
-exports.remove = async function(id, result) {
+exports.update = async function(id, data, req, res) {
+    try {
+        let dataFind = await db.form_user.findByPk(id);
+        if (!dataFind) {
+            res.status(404).send({ Error: codeErr(404) });
+            return;
+        } else {
+            await db.form_user.update({
+                status: data.status,
+                managerCmt: data.managerCmt,
+                userCmt: data.userCmt
+            }, {
+                where: {
+                    id: id
+                }
+            });
+        };
+        let dataMail = await db.user.findOne({
+            include: {
+                model: db.form_user,
+                where: { id: id }
+            }
+        })
+        if (data.status == "accepted") {
+            let dataSend = {
+                email: dataMail.email,
+                name: "Báo cáo đã được accepted",
+                html: `Báo cáo thử việc đã được chấp nhận, vui lòng đọc comment để xem nhận xét của manager`
+            };
+            mail.sendMailChangeStatus(dataSend, req, res)
+        } else if (data.status == "reject") {
+            let dataSend = {
+                email: dataMail.email,
+                name: "Báo cáo đã bị reject",
+                html: `Báo cáo của bạn đã bị từ chối, vui lòng đọc comment để cập nhật và nộp lại`
+            };
+            mail.sendMailChangeStatus(dataSend, req, res)
+        }
+        res.status(200).send("Update thanh cong");
+    } catch (err) {
+        res.status(500).send({
+            Error: err.message
+        });
+    }
+}
+
+exports.remove = async function(id, req, res) {
     try {
         let data = await db.form_user.findByPk(id);
         if (!data) {
-            result("form_user khong ton tai");
+            res.status(404).send({ Error: codeErr(404) });
         } else {
             await db.form_user.destroy({
                 where: {
                     id: id
                 }
             });
-            result("Xoa du lieu form_user co id " + id + " thanh cong.");
+            res.status(200).send("Xoa du lieu form_user co id " + id + " thanh cong.");
         }
     } catch (error) {
-        result(error)
+        res.status(500).send({
+            Error: error.message
+        });
     }
 }

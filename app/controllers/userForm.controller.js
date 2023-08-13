@@ -1,53 +1,41 @@
 var UserForm = require('../service/userForm.service');
+const codeErr = require('../common/status');
 
 exports.getAll = function(req, res) {
-    UserForm.getAll(function(data) {
-        res.send({ result: data });
-    })
+    UserForm.getAll(req, res);
 }
 
 exports.getById = function(req, res) {
     var id = req.params.id;
-    UserForm.getById(id, function(data) {
-        res.send({ result: data });
-    })
+    UserForm.getById(id, req, res);
 }
 
 exports.getByFormId = function(req, res) {
     var id = req.params.id;
-    UserForm.getByFormId(id, function(data) {
-        res.send({ result: data });
-    })
+    UserForm.getByFormId(id, req, res);
 }
 
 exports.getByUserId = function(req, res) {
     var id = req.params.id;
-    UserForm.getByUserId(id, function(data) {
-        res.send({ result: data });
-    })
+    UserForm.getByUserId(id, req, res);
+}
+
+exports.getByFormIdUserId = function(req, res) {
+    var data = req.body;
+    UserForm.getByFormIdUserId(data, req, res);
 }
 
 exports.create = async function(req, res) {
     let data = req.body;
-    try {
-        UserForm.create(data, function(response) {
-            res.send({ result: response })
-        })
-    } catch (error) {
-        res.send(error);
-    }
+    UserForm.create(data, req, res);
 }
 
 exports.update = async function(req, res) {
     var id = await req.params.id;
     let data = req.body;
-    UserForm.update(id, data, function(response) {
-        res.send({ result: response });
-    })
+    UserForm.update(id, data, req, res);
 }
 exports.delete = function(req, res) {
     var id = req.params.id;
-    UserForm.remove(id, function(response) {
-        res.send({ result: response });
-    })
+    UserForm.remove(id, req, res);
 }

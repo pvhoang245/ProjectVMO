@@ -6,7 +6,7 @@ exports.getAll = async function(id, role, req, res) {
     if (role == "admin") {
         await db.user.findAll()
             .then(data => {
-                if (data.length != 0) {
+                if (data && data.length != 0) {
                     res.status(200).send(data);
                 } else {
                     res.status(404).send({ Error: codeErr(404) });
@@ -23,7 +23,7 @@ exports.getAll = async function(id, role, req, res) {
                 where: { managerId: id }
             })
             .then(data => {
-                if (data.length != 0) {
+                if (data && data.length != 0) {
                     res.status(200).send(data);
                 } else {
                     res.status(404).send({ Error: codeErr(404) });
@@ -41,7 +41,7 @@ exports.getById = async function(id, role, req, res) {
     if (role == "admin") {
         await db.user.findOne({ where: { id: id } })
             .then(data => {
-                if (data.length != 0) {
+                if (data && data.length != 0) {
                     res.status(200).send(data);
                 } else {
                     res.status(404).send({ Error: codeErr(404) });
@@ -58,7 +58,7 @@ exports.getById = async function(id, role, req, res) {
                 where: { id: id }
             })
             .then(data => {
-                if (data.length != 0) {
+                if (data && data.length != 0) {
                     res.status(200).send(data);
                 } else {
                     res.status(404).send({ Error: codeErr(404) });
@@ -72,26 +72,49 @@ exports.getById = async function(id, role, req, res) {
     }
 }
 
-exports.getByName = async function(name, req, res) {
-    await db.user.findAll({
-            where: {
-                name: {
-                    [Op.substring]: name
+exports.getByName = async function(name, role, req, res) {
+    if (role == "admin") {
+        await db.user.findAll({
+                where: {
+                    name: {
+                        [Op.substring]: name
+                    }
                 }
-            }
-        })
-        .then(data => {
-            if (data.length != 0) {
-                res.status(200).send(data);
-            } else {
-                res.status(404).send({ Error: codeErr(404) });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                Error: err.message
+            })
+            .then(data => {
+                if (data && data.length != 0) {
+                    res.status(200).send(data);
+                } else {
+                    res.status(404).send({ Error: codeErr(404) });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    Error: err.message
+                });
             });
-        });
+    } else {
+        await db.user.findAll({
+                attributes: ["id", "name", "birthday", "address", "image", "sex", "bhxh", "phone", "email"],
+                where: {
+                    name: {
+                        [Op.substring]: name
+                    }
+                }
+            })
+            .then(data => {
+                if (data && data.length != 0) {
+                    res.status(200).send(data);
+                } else {
+                    res.status(404).send({ Error: codeErr(404) });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    Error: err.message
+                });
+            });
+    }
 }
 
 exports.create = async function(data, req, res) {
@@ -118,34 +141,71 @@ exports.create = async function(data, req, res) {
 }
 
 exports.update = async function(id, data, req, res) {
+    var jwt = require('../common/jwt');
     try {
-        let dataFind = await db.user.findByPk(id);
-        if (!dataFind) {
-            res.status(404).send({ Error: codeErr(404) });
+        const decode = await jwt.decode(req.cookies.token);
+        console.log(decode.data.id)
+        let checkRole = await db.user.findOne({
+            include: {
+                model: db.role,
+                required: true
+            },
+            where: {
+                accountId: decode.data.id
+            }
+        });
+        if (checkRole.role.name == "admin") {
+            let dataFind = await db.user.findByPk(id);
+            if (!dataFind) {
+                res.status(404).send({ Error: codeErr(404) });
+                return;
+            } else {
+                await db.user.update({
+                    name: data.name,
+                    birthday: data.birthday,
+                    address: data.address,
+                    image: data.image,
+                    bhxh: data.bhxh,
+                    phone: data.phone,
+                    email: data.email,
+                    managerId: data.managerId,
+                    sex: data.sex
+                }, {
+                    where: {
+                        id: id
+                    }
+                });
+                res.status(200).send("Update thành công");
+            }
+        } else if (id == checkRole.id) {
+            let dataFind = await db.user.findByPk(id);
+            if (!dataFind) {
+                res.status(404).send({ Error: codeErr(404) });
+                return;
+            } else {
+                await db.user.update({
+                    name: data.name,
+                    birthday: data.birthday,
+                    address: data.address,
+                    image: data.image,
+                    bhxh: data.bhxh,
+                    phone: data.phone,
+                    email: data.email,
+                    sex: data.sex
+                }, {
+                    where: {
+                        id: id
+                    }
+                });
+                res.status(200).send("Update thành công");
+            }
         } else {
-            await db.user.update({
-                name: data.name,
-                birthday: data.birthday,
-                address: data.address,
-                image: data.image,
-                roleId: data.roleId,
-                bhxh: data.bhxh,
-                phone: data.phone,
-                email: data.email,
-                accountId: data.accountId,
-                managerId: data.managerId,
-                sex: data.sex
-            }, {
-                where: {
-                    id: id
-                }
-            });
-            res.status(200).send("Update thành công");
+            res.status(403).send({ Error: "Access denied" });
         }
     } catch (err) {
         res.status(500).send({
             Error: err.message
-        });;
+        });
     }
 }
 
@@ -164,7 +224,7 @@ exports.remove = async function(id, req, res) {
         }
     } catch (error) {
         res.status(500).send({
-            Error: error
+            Error: error.message
         });
     }
 }

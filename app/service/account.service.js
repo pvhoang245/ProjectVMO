@@ -6,7 +6,7 @@ exports.getAll = async function(req, res) {
             attributes: ["id", "username"]
         })
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -25,7 +25,7 @@ exports.getById = async function(id, req, res) {
             where: { id: id }
         })
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -44,7 +44,7 @@ exports.getByUsername = async function(username, req, res) {
             where: { username: username }
         })
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -63,6 +63,11 @@ exports.create = async function(data, req, res) {
             password: data.password
         })
         .then(account => {
+            db.user.create({
+                roleId: data.roleId,
+                accountId: account.id,
+                managerId: data.managerId,
+            })
             res.status(200).send("Da tao thanh cong account");
         })
         .catch(error => {

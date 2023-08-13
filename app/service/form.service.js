@@ -5,7 +5,7 @@ const mail = require('../../sendEmail')
 exports.getAll = async function(req, res) {
     await db.form.findAll()
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -21,7 +21,7 @@ exports.getAll = async function(req, res) {
 exports.getById = async function(id, req, res) {
     await db.form.findOne({ where: { id: id } })
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -37,7 +37,7 @@ exports.getById = async function(id, req, res) {
 exports.getByCategoryId = async function(id, req, res) {
     await db.form.findAll({ where: { categoryId: id } })
         .then(data => {
-            if (data.length != 0) {
+            if (data && data.length != 0) {
                 res.status(200).send(data);
             } else {
                 res.status(404).send({ Error: codeErr(404) });
@@ -66,11 +66,11 @@ exports.create = async function(data, req, res) {
             duedate: data.duedate
         });
         let dataMail = {
-            name: "bao cao dinh ki t8",
-            duedate: "31-08-2023"
+            name: data.name,
+            duedate: data.duedate
         }
-        await mail.sendMail(dataMail, req, res)
-        res.status(200).send("Da tao thanh cong form");
+        await mail.sendMailCreateForm(dataMail, req, res)
+        res.status(200).send("Da tao thanh cong form va gui mail");
     } catch (err) {
         res.status(500).send({
             Error: err.message
@@ -99,7 +99,7 @@ exports.update = async function(id, data, req, res) {
         }
     } catch (error) {
         res.status(500).send({
-            Error: error
+            Error: error.message
         });
     }
 }
@@ -119,7 +119,7 @@ exports.remove = async function(id, req, res) {
         }
     } catch (error) {
         res.status(500).send({
-            Error: error
+            Error: error.message
         });
     }
 }

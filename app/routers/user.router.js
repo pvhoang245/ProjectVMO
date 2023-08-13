@@ -1,10 +1,16 @@
+const _authMiddleware = require("../common/_authMiddleware");
 module.exports = function(router) {
     var userController = require('../controllers/user.controller');
-
-    router.get("/user/list", userController.getAll);
-    router.get("/user/getById/:id", userController.getById);
-    router.get("/user/getByName", userController.getByName);
-    router.post("/user/create", userController.create);
+    //ad, hr, dr
+    router.get("/user/list", _authMiddleware.checkPermission("/user/list"), userController.getAll);
+    //ad, hr, dr
+    router.get("/user/getById/:id", _authMiddleware.checkPermission("/user/getById"), userController.getById);
+    //ad, hr, dr
+    router.post("/user/getByName", _authMiddleware.checkPermission("/user/getByName"), userController.getByName);
+    //ad
+    router.post("/user/create", _authMiddleware.checkPermission("/user/create"), userController.create);
+    //ALL
     router.put("/user/update/:id", userController.update);
-    router.delete("/user/remove/:id", userController.delete);
+    //ad
+    router.delete("/user/remove/:id", _authMiddleware.checkPermission("/user/remove"), userController.delete);
 }
