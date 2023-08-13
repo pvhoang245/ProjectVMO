@@ -1,10 +1,12 @@
-Giới thiệu: 
-    - Đề tài: Quản lý nhân sự thử việc
-    - Project là backend sử dụng nodejs
+## Giới thiệu
+- **Đề tài**: Quản lý nhân sự thử việc
+- **Project**: Backend sử dụng Node.js
 
-Để sử dụng, trước tiên hãy tải về và thực hiện các bước sau:
-I. Tải và cài đặt Nodejs tại: https://nodejs.org/en/download
-II. Mở project và chạy "npm install" để cài đặt các package cần thiết
-III. Sửa đổi thông tin kết nối tới database trong "app/config"(db đang được sử dụng là mysql)
-IV. Chạy "npm start" để chạy server và tạo bảng trên database
-V. Copy data từ file .sql để tạo 1 số data quan trọng
+## Hướng dẫn sử dụng
+1. Tải và cài đặt Node.js từ [trang chính thức](https://nodejs.org/en/download).
+2. Mở project và chạy lệnh `npm install` để cài đặt các package cần thiết.
+3. Sửa đổi thông tin kết nối tới cơ sở dữ liệu trong thư mục "app/config" (db đang được sử dụng là MySQL).
+4. Chạy lệnh `npm start` để khởi động server và tạo bảng trên cơ sở dữ liệu.
+5. Copy data từ file .sql để tạo một số dữ liệu quan trọng.
+
+**Lưu ý**: Đảm bảo bạn đã cài đặt MySQL trước khi thực hiện bước 3 và 4.
