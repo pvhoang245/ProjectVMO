@@ -4,7 +4,7 @@ module.exports = function(router) {
         //ad
     router.get("/url/list", _authMiddleware.checkPermission("/url/list"), urlController.getList);
     router.get("/url/getById/:id", _authMiddleware.checkPermission("/url/getById"), urlController.getById);
-    router.post("/url/getByLink", _authMiddleware.checkPermission("/url/getByLink"), urlController.getByLink);
+    router.get("/url/getByLink/:link", _authMiddleware.checkPermission("/url/getByLink"), urlController.getByLink);
     router.post("/url/create", _authMiddleware.checkPermission("/url/create"), urlController.create);
     router.put("/url/update/:id", _authMiddleware.checkPermission("/url/update"), urlController.update);
     router.delete("/url/delete/:id", _authMiddleware.checkPermission("/url/delete"), urlController.delete);

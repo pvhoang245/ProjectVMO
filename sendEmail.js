@@ -1,7 +1,9 @@
 var _app = require('./app/common/_app')
 const db = require("./app/models/index")
 const nodemailer = require('nodemailer')
-const sendMailCreateForm = async(data, req, res) => {
+const { Op } = require('sequelize');
+
+const sendMailCreateForm = async(list, data, req, res) => {
     let transporter = await nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -11,16 +13,21 @@ const sendMailCreateForm = async(data, req, res) => {
     });
 
     let mail = await db.user.findAll({
-        attributes: ["email"]
+        attributes: ["email"],
+        where: {
+            id: {
+                [Op.or]: list
+            }
+        }
     })
-    let list = [];
+    let listMail = [];
     for (let i = 0; i < mail.length; i++) {
-        list.push(mail[i].email);
+        listMail.push(mail[i].email);
     }
 
     await transporter.sendMail({
             from: _app.EMAIL_USERNAME,
-            to: list,
+            to: listMail,
             subject: data.name,
             text: "Hi",
             html: `Báo cáo thử việc đã có, vui lòng cập nhật và nộp lại trước ngày <b>${data.duedate}<b>`

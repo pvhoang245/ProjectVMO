@@ -44,21 +44,17 @@
  *         description: Internal Server Error
  * 
  * 
- * /user/getByName:
- *   post:
+ * /user/getByName/{name}:
+ *   get:
  *     summary: Get user by name
  *     tags: [User]
  *     parameters:
  *       - name: name
- *         in: body
+ *         in: path
  *         description: name
  *         required: true
  *         schema:
  *           type: string
- *           properties:
- *               name:
- *                 type: string
- *                 example: hoang
  *     responses:
  *       200:
  *         description: Successful response
@@ -122,7 +118,7 @@
  * 
  * /user/update/{id}:
  *   put:
- *     summary: Change password
+ *     summary: update user
  *     tags: [User]
  *     parameters:
  *       - name: id

@@ -10,8 +10,7 @@ exports.getById = function(req, res) {
 }
 
 exports.getByLink = function(req, res) {
-    var name = req.body.link;
-    Url.getByLink(name, req, res);
+    Url.getByLink(req.params.link, req, res);
 }
 
 exports.create = function(req, res) {

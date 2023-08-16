@@ -6,7 +6,7 @@ module.exports = function(router) {
     //ad, hr, dr
     router.get("/user/getById/:id", _authMiddleware.checkPermission("/user/getById"), userController.getById);
     //ad, hr, dr
-    router.post("/user/getByName", _authMiddleware.checkPermission("/user/getByName"), userController.getByName);
+    router.get("/user/getByName/:name", _authMiddleware.checkPermission("/user/getByName"), userController.getByName);
     //ad
     router.post("/user/create", _authMiddleware.checkPermission("/user/create"), userController.create);
     //ALL

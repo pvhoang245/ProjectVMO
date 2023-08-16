@@ -67,7 +67,7 @@
  * 
  * /category/update/{id}:
  *   put:
- *     summary: Change password
+ *     summary: update category
  *     tags: [Category]
  *     parameters:
  *       - name: id

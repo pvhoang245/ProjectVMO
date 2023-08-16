@@ -78,7 +78,7 @@ exports.getByRole = async function(role, req, res) {
         });
 }
 
-exports.getByUrl = async function(url, req, res) {
+exports.getByUrl = async function(link, req, res) {
     await db.role_url.findAll({
             include: [{
                 model: db.role,
@@ -86,7 +86,7 @@ exports.getByUrl = async function(url, req, res) {
             }, {
                 model: db.url,
                 attributes: ["link"],
-                where: { link: url }
+                where: { link: link }
             }],
             attributes: ["id"]
         })

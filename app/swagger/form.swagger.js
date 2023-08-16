@@ -42,12 +42,12 @@
  *         description: Internal Server Error
  * 
  * 
- * /form/getByCategoryId/{id}:
+ * /form/getByCategoryId/{categoryId}:
  *   get:
  *     summary: Get form by categoryId
  *     tags: [Form]
  *     parameters:
- *       - name: id
+ *       - name: categoryId
  *         in: path
  *         description: category Id
  *         required: true
@@ -98,7 +98,7 @@
  * 
  * /form/update/{id}:
  *   put:
- *     summary: Change password
+ *     summary: update form
  *     tags: [Form]
  *     parameters:
  *       - name: id

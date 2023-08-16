@@ -41,12 +41,12 @@
  *       500:
  *         description: Internal Server Error
  * 
- * /userForm/getByFormId/{id}:
+ * /userForm/getByFormId/{formId}:
  *   get:
  *     summary: Get userForm by formId
  *     tags: [User Form]
  *     parameters:
- *       - name: id
+ *       - name: formId
  *         in: path
  *         description: formId
  *         required: true
@@ -61,12 +61,12 @@
  *       500:
  *         description: Internal Server Error
  * 
- * /userForm/getByUserId/{id}:
+ * /userForm/getByUserId/{userId}:
  *   get:
  *     summary: Get userForm by userId
  *     tags: [User Form]
  *     parameters:
- *       - name: id
+ *       - name: userId
  *         in: path
  *         description: userId
  *         required: true
@@ -81,23 +81,44 @@
  *       500:
  *         description: Internal Server Error
  * 
- * 
- * /userForm/getByFormIdUserId:
- *   post:
- *     summary: Get userForm by formId and userId
+ * /userForm/getListOfManager/{formId}:
+ *   get:
+ *     summary: Get userForm of user under
  *     tags: [User Form]
  *     parameters:
- *       - name: formId, userId
- *         in: body
- *         description: formId, userId
+ *       - name: formId
+ *         in: path
+ *         description: formId
  *         required: true
  *         schema:
  *           type: string
- *           properties:
- *               formId:
- *                 type: string
- *               userId:
- *                 type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ * 
+ * 
+ * /userForm/getByFormIdUserId/{formId}/{userId}:
+ *   get:
+ *     summary: Get userForm by formId and userId
+ *     tags: [User Form]
+ *     parameters:
+ *       - name: formId
+ *         in: path
+ *         description: formId
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: userId
+ *         in: path
+ *         description: userId
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response
@@ -119,9 +140,6 @@
  *         schema:
  *           type: object
  *           properties:
- *               status:
- *                 type: string
- *                 example: new
  *               userId:
  *                 type: string
  *               formId:

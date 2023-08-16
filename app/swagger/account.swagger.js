@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   - name: Account
- *     description: API for managing users
+ *     description: API for managing accounts
  */
 
 
@@ -10,7 +10,7 @@
  * @swagger
  * /account/list:
  *   get:
- *     summary: Get all users
+ *     summary: Get all accounts
  *     tags: [Account]
  *     responses:
  *       200:

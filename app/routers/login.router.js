@@ -72,4 +72,8 @@ module.exports = function(router) {
         }
         mail.sendMailResetPassword(data, req, res);
     })
+    router.get("/logout", function(req, res) {
+        res.clearCookie('token', { httpOnly: true });
+        res.status(200).json({ Message: "Đã logout" });
+    })
 };

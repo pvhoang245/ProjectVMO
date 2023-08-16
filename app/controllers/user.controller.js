@@ -61,7 +61,7 @@ exports.getByName = async function(req, res) {
                 accountId: id
             }
         });
-        User.getByName(req.body.name, data.role.name, req, res);
+        User.getByName(req.params.name, data.role.name, req, res);
     } catch (error) {
         res.status(500).send({
             Error: error.message

@@ -2,8 +2,7 @@ var UserFormDetail = require('../service/userFormDetail.service');
 var jwt = require('../common/jwt');
 
 exports.getAll = async function(req, res) {
-    var id = await req.params.id;
-    UserFormDetail.getAll(id, req, res);
+    UserFormDetail.getAll(req.params.formUserId, req, res);
 }
 
 exports.getById = function(req, res) {

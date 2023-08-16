@@ -6,11 +6,13 @@ module.exports = function(router) {
     //ALL
     router.get("/userForm/getById/:id", userFormController.getById);
     //ad
-    router.get("/userForm/getByFormId/:id", _authMiddleware.checkPermission("/userForm/getByFormId"), userFormController.getByFormId);
+    router.get("/userForm/getByFormId/:formId", _authMiddleware.checkPermission("/userForm/getByFormId"), userFormController.getByFormId);
     //ALL
-    router.get("/userForm/getByUserId/:id", userFormController.getByUserId);
+    router.get("/userForm/getByUserId/:userId", userFormController.getByUserId);
+    //hr, dr, mn
+    router.get("/userForm/getListOfManager/:formId", userFormController.getListOfManager);
     //ALL
-    router.post("/userForm/getByFormIdUserId", userFormController.getByFormIdUserId);
+    router.get("/userForm/getByFormIdUserId/:formId/:userId", userFormController.getByFormIdUserId);
     //ad
     router.post("/userForm/create", _authMiddleware.checkPermission("/userForm/create"), userFormController.create);
     //ALL

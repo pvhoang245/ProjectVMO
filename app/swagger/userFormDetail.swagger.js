@@ -8,12 +8,12 @@
 
 /**
  * @swagger
- * /userFormDetail/list/{id}:
+ * /userFormDetail/list/{formUserId}:
  *   get:
  *     summary: Get all users
  *     tags: [User Form Detail]
  *     parameters:
- *       - name: id
+ *       - name: formUserId
  *         in: path
  *         description: UserForm ID
  *         required: true

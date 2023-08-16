@@ -10,8 +10,8 @@ exports.getById = function(req, res) {
 }
 
 exports.getByCategoryId = function(req, res) {
-    var id = req.params.id;
-    Form.getByCategoryId(id, req, res);
+    var categoryId = req.params.categoryId;
+    Form.getByCategoryId(categoryId, req, res);
 }
 
 exports.create = function(req, res) {

@@ -8,9 +8,9 @@ module.exports = function(router) {
     //ad
     router.get("/roleUrl/getByRole/:role", _authMiddleware.checkPermission("/roleUrl/getByRole"), roleUrlController.getByRole);
     //ad
-    router.post("/roleUrl/getByUrl", _authMiddleware.checkPermission("/roleUrl/getByUrl"), roleUrlController.getByUrl);
+    router.get("/roleUrl/getByUrl/:link", _authMiddleware.checkPermission("/roleUrl/getByUrl"), roleUrlController.getByUrl);
     //ad
-    router.post("/roleUrl/getByRoleUrl", _authMiddleware.checkPermission("/roleUrl/getByRoleUrl"), roleUrlController.getByRoleUrl);
+    router.get("/roleUrl/getByRoleUrl/:role/:link", _authMiddleware.checkPermission("/roleUrl/getByRoleUrl"), roleUrlController.getByRoleUrl);
     //ad
     router.post("/roleUrl/create", _authMiddleware.checkPermission("/roleUrl/create"), roleUrlController.create);
     //ad

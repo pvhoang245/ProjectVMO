@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   - name: Role Url
- *     description: API for managing users
+ *     description: API for managing role_url
  */
 
 
@@ -63,21 +63,17 @@
  *       500:
  *         description: Internal Server Error
  * 
- * /roleUrl/getByUrl:
- *   post:
+ * /roleUrl/getByUrl/{link}:
+ *   get:
  *     summary: Get roleUrl by url
  *     tags: [Role Url]
  *     parameters:
- *       - name: url
- *         in: body
- *         description: url
+ *       - name: link
+ *         in: path
+ *         description: link
  *         required: true
  *         schema:
  *           type: string
- *           properties:
- *               link:
- *                 type: string
- *                 example: /account/list
  *     responses:
  *       200:
  *         description: Successful response
@@ -86,24 +82,23 @@
  *       500:
  *         description: Internal Server Error
  * 
- * /roleUrl/getByRoleUrl:
- *   post:
- *     summary: Get roleUrl by name
+ * /roleUrl/getByRoleUrl/{role}/{link}:
+ *   get:
+ *     summary: Get roleUrl by role and url
  *     tags: [Role Url]
  *     parameters:
- *       - name: roleUrl
- *         in: body
- *         description: role, url
+ *       - name: role
+ *         in: path
+ *         description: role
  *         required: true
  *         schema:
  *           type: string
- *           properties:
- *               role:
- *                 type: string
- *                 example: admin
- *               link:
- *                 type: string
- *                 example: /account/list
+ *       - name: link
+ *         in: path
+ *         description:  link
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response

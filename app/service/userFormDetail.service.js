@@ -1,8 +1,8 @@
 const db = require('../models/index');
 const codeErr = require('../common/status');
 
-exports.getAll = async function(id, req, res) {
-    await db.form_user_detail.findAll({ where: { formUserId: id } })
+exports.getAll = async function(formUserId, req, res) {
+    await db.form_user_detail.findAll({ where: { formUserId: formUserId } })
         .then(data => {
             if (data && data.length != 0) {
                 res.status(200).send(data);

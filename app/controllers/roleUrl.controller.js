@@ -16,13 +16,11 @@ exports.getByRole = function(req, res) {
 }
 
 exports.getByUrl = function(req, res) {
-    var url = req.body.link;
-    RoleUrl.getByUrl(url, req, res);
+    RoleUrl.getByUrl(req.params.link, req, res);
 }
 
 exports.getByRoleUrl = function(req, res) {
-    var data = req.body;
-    RoleUrl.getByRoleUrl(data.role, data.link, req, res);
+    RoleUrl.getByRoleUrl(req.params.role, req.params.link, req, res);
 }
 
 exports.create = async function(req, res) {

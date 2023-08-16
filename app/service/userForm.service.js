@@ -34,8 +34,8 @@ exports.getById = async function(id, req, res) {
         });
 }
 
-exports.getByFormId = async function(id, req, res) {
-    await db.form_user.findAll({ where: { formId: id } })
+exports.getByFormId = async function(formId, req, res) {
+    await db.form_user.findAll({ where: { formId: formId } })
         .then(data => {
             if (data && data.length != 0) {
                 res.status(200).send(data);
@@ -50,8 +50,8 @@ exports.getByFormId = async function(id, req, res) {
         });
 }
 
-exports.getByUserId = async function(id, req, res) {
-    await db.form_user.findAll({ where: { userId: id } })
+exports.getByUserId = async function(userId, req, res) {
+    await db.form_user.findAll({ where: { userId: userId } })
         .then(data => {
             if (data && data.length != 0) {
                 res.status(200).send(data);
@@ -66,8 +66,32 @@ exports.getByUserId = async function(id, req, res) {
         });
 }
 
-exports.getByFormIdUserId = async function(data, req, res) {
-    await db.form_user.findAll({ where: { userId: data.userId, formId: data.formId } })
+exports.getByFormIdUserId = async function(formId, userId, req, res) {
+    await db.form_user.findAll({ where: { userId: userId, formId: formId } })
+        .then(data => {
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                Error: err.message
+            });
+        });
+}
+
+exports.getListOfManager = async function(managerId, formId, req, res) {
+    await db.form_user.findAll({
+            include: {
+                model: db.user,
+                where: { managerId: managerId }
+            },
+            where: {
+                formId: formId
+            }
+        })
         .then(data => {
             if (data && data.length != 0) {
                 res.status(200).send(data);
@@ -85,7 +109,7 @@ exports.getByFormIdUserId = async function(data, req, res) {
 exports.create = async function(data, req, res) {
     try {
         await db.form_user.create({
-            status: data.status,
+            status: "new",
             formId: data.formId,
             userId: data.userId
         });

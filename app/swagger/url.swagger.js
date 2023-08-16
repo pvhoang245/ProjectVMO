@@ -44,21 +44,17 @@
  *         description: Internal Server Error
  * 
  * 
- * /url/getByLink:
- *   post:
- *     summary: Get url by name
+ * /url/getByLink/{link}:
+ *   get:
+ *     summary: Get url by link
  *     tags: [Url]
  *     parameters:
  *       - name: link
- *         in: body
+ *         in: path
  *         description: link
  *         required: true
  *         schema:
  *           type: string
- *           properties:
- *               link:
- *                 type: string
- *                 example: /account/list
  *     responses:
  *       200:
  *         description: Successful response

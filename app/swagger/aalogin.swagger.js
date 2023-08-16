@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   - name: Login
- *     description: API for managing users
+ *     description: API for managing home
  */
 
 
@@ -85,5 +85,13 @@
  *       500:
  *         description: Error
  * 
+ * 
+ * /logout:
+ *   get:
+ *     summary: logout
+ *     tags: [Login]
+ *     responses:
+ *       200:
+ *         description: Successful response
  * 
  */

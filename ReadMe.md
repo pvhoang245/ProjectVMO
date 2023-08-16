@@ -8,3 +8,4 @@ II. Mở project và chạy "npm install" để cài đặt các package cần t
 III. Sửa đổi thông tin kết nối tới database trong "app/config"(db đang được sử dụng là mysql)
 IV. Chạy "npm start" để chạy server và tạo bảng trên database
 V. Copy data từ file .sql để tạo 1 số data quan trọng
+VI. Test api tại http://localhost:3000/api-docs

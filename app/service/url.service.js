@@ -34,11 +34,11 @@ exports.getById = async function(id, req, res) {
         });
 }
 
-exports.getByLink = async function(name, req, res) {
+exports.getByLink = async function(link, req, res) {
     await db.url.findOne({
             where: {
                 link: {
-                    [Op.substring]: name
+                    [Op.substring]: link
                 }
             }
         })
