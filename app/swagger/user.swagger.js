@@ -158,6 +158,12 @@
  *               email:
  *                 type: string
  *                 example: icutachandat@gmail.com
+ *               roleId:
+ *                 type: string
+ *                 example: 2
+ *               managerId:
+ *                 type: string
+ *                 example: 1
  *     responses:
  *       200:
  *         description: Successful response

@@ -169,7 +169,8 @@ exports.update = async function(id, data, req, res) {
                     phone: data.phone,
                     email: data.email,
                     managerId: data.managerId,
-                    sex: data.sex
+                    sex: data.sex,
+                    roleId: roleId
                 }, {
                     where: {
                         id: id
