@@ -34,6 +34,22 @@ exports.getById = async function(id, req, res) {
         });
 }
 
+exports.getByStatus = async function(formId, status, req, res) {
+    await db.form_user.findAll({ where: { status: status, formId: formId } })
+        .then(data => {
+            if (data && data.length != 0) {
+                res.status(200).send(data);
+            } else {
+                res.status(404).send({ Error: codeErr(404) });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                Error: err.message
+            });
+        });
+}
+
 exports.getByFormId = async function(formId, req, res) {
     await db.form_user.findAll({ where: { formId: formId } })
         .then(data => {

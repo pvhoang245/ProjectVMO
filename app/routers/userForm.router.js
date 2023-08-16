@@ -5,6 +5,8 @@ module.exports = function(router) {
     router.get("/userForm/list", _authMiddleware.checkPermission("/userForm/list"), userFormController.getAll);
     //ALL
     router.get("/userForm/getById/:id", userFormController.getById);
+    //ad, hr, dr, mn
+    router.get("/userForm/getByStatus/:formId/:status", _authMiddleware.checkPermission("/userForm/getByStatus"), userFormController.getByStatus);
     //ad
     router.get("/userForm/getByFormId/:formId", _authMiddleware.checkPermission("/userForm/getByFormId"), userFormController.getByFormId);
     //ALL

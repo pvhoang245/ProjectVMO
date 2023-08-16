@@ -15,6 +15,10 @@ exports.getByFormId = function(req, res) {
     UserForm.getByFormId(req.params.formId, req, res);
 }
 
+exports.getByStatus = function(req, res) {
+    UserForm.getByStatus(req.params.formId, req.params.status, req, res);
+}
+
 exports.getByUserId = function(req, res) {
     UserForm.getByUserId(req.params.userId, req, res);
 }

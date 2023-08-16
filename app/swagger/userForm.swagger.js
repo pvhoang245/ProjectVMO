@@ -41,6 +41,34 @@
  *       500:
  *         description: Internal Server Error
  * 
+ * 
+ /userForm/getByStatus/{formId}/{status}:
+ *   get:
+ *     summary: Get userForm by status, formId
+ *     tags: [User Form]
+ *     parameters:
+ *       - name: formId
+ *         in: path
+ *         description: formId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *       - name: status
+ *         in: path
+ *         description: status
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ * 
+ * 
  * /userForm/getByFormId/{formId}:
  *   get:
  *     summary: Get userForm by formId

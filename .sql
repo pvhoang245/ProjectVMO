@@ -51,6 +51,7 @@ INSERT INTO `urls`(`id`, `link`, `description`) VALUES
 ('38','/userForm/create',''),
 ('39','/userForm/delete',''),
 ('40','/userForm/getListOfManager',''),
+('41','/userForm/getByStatus',''),
 ;
 
 
@@ -122,4 +123,8 @@ INSERT INTO `role_urls`(`id`, `roleId`, `urlId`) VALUES
 ('62','2','40'),
 ('63','3','40'),
 ('64','4','40'),
+('65','1','41'),
+('66','2','41'),
+('67','3','41'),
+('68','4','41'),
 ;
