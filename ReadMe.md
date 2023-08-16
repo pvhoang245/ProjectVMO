@@ -8,6 +8,7 @@
 3. Sửa đổi thông tin kết nối tới cơ sở dữ liệu trong thư mục "app/config" (db đang được sử dụng là MySQL).
 4. Chạy lệnh `npm start` để khởi động server và tạo bảng trên cơ sở dữ liệu.
 5. Copy data từ file .sql để tạo một số dữ liệu quan trọng.
-6. Test api tại http://localhost:3000/api-docs
+6. Tạo 1 account (password phải được bcrypt) và user liên kết tới account đó có role là admin để có thể sử dụng toàn bộ api mà không bị lỗi
+7. Test api tại http://localhost:3000/api-docs
 
 **Lưu ý**: Đảm bảo bạn đã cài đặt mysql và bật phpMyAdmin( sử dụng xampp ) trước khi thực hiện bước 3 và 4.
