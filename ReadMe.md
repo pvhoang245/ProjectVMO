@@ -10,4 +10,4 @@
 5. Copy data từ file .sql để tạo một số dữ liệu quan trọng.
 6. Test api tại http://localhost:3000/api-docs
 
-**Lưu ý**: Đảm bảo bạn đã cài đặt MySQL trước khi thực hiện bước 3 và 4.
+**Lưu ý**: Đảm bảo bạn đã cài đặt mysql và bật phpMyAdmin( sử dụng xampp ) trước khi thực hiện bước 3 và 4.
