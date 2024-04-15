@@ -16,7 +16,6 @@ module.exports = {
         await queryInterface.bulkInsert('Accounts', [{
             username: 'admin',
             password: 'admin',
-            role: 'admin',
         }], {});
     },
 

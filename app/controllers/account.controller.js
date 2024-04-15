@@ -19,7 +19,7 @@ exports.getByUsername = function(req, res) {
 
 exports.create = async function(req, res) {
     try {
-        if (req.body.role == "admin") {
+        if (req.body.role === "admin") {
             res.status(403).send({ Error: "Access denied" });
             return;
         }

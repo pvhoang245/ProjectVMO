@@ -11,7 +11,7 @@
  * 
  * /login:
  *   post:
- *     summary: Create account 
+ *     summary: Login
  *     tags: [Login]
  *     parameters:
  *       - name: body

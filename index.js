@@ -14,13 +14,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
 
-db.sequelize.sync({ alter: true })
-    .then(() => {
-        console.log("Synced db.");
-    })
-    .catch((err) => {
-        console.log("Failed to sync db: " + err.message);
-    });
+// db.sequelize.sync({ alter: true })
+//     .then(() => {
+//         console.log("Synced db.");
+//     })
+//     .catch((err) => {
+//         console.log("Failed to sync db: " + err.message);
+//     });
 
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerOptions = {
